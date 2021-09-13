@@ -74,20 +74,88 @@ const menu = [
 ];
 
 const section = document.querySelector('.menu-container');
+const btns = document.querySelectorAll('button');
 
-let displayMenu = menu.map((item) => {
-  return `<article class='menu-item'>
-      <img src="${item.img}" alt="${item.title}" class='photo'>
-      <div class='item-info'>
-          <header>
-              <h3>${item.title}</h3>
-              <h3 class='price'>${item.price}</h3>
-          </header>
-          <hr>
-          <p>${item.desc}</p>
-      </div>
-  </article>`;
+function displayMenuAll() {
+  let displayMenu = menu.map((item) => {
+    return `<article class='menu-item'>
+        <img src="${item.img}" alt="${item.title}" class='photo'>
+        <div class='item-info'>
+            <header>
+                <h3>${item.title}</h3>
+                <h3 class='price'>${item.price}</h3>
+            </header>
+            <hr>
+            <p>${item.desc}</p>
+        </div>
+    </article>`;
+  });
+  displayMenu = displayMenu.join('');
+  section.innerHTML = displayMenu;
+}
+
+let filteredArr = [];
+
+function breakfast(category) {
+  menu.filter((item) => {
+    if (item.category === category) {
+      filteredArr.push(item);
+      populateArray();
+    }
+  });
+  filteredArr = [];
+}
+
+function lunch(category) {
+  menu.filter((item) => {
+    if (item.category === category) {
+      filteredArr.push(item);
+      populateArray();
+    }
+  });
+  filteredArr = [];
+}
+
+function shakes(category) {
+  menu.filter((item) => {
+    if (item.category === category) {
+      filteredArr.push(item);
+      populateArray();
+    }
+  });
+  filteredArr = [];
+}
+async function populateArray() {
+  let filter = await filteredArr.map((item) => {
+    return `<article class='menu-item'>
+        <img src="${item.img}" alt="${item.title}" class='photo'>
+        <div class='item-info'>
+            <header>
+                <h3>${item.title}</h3>
+                <h3 class='price'>${item.price}</h3>
+            </header>
+            <hr>
+            <p>${item.desc}</p>
+        </div>
+    </article>`;
+  });
+  filter = filter.join('');
+  section.innerHTML = filter;
+}
+
+btns.forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    if (e.currentTarget.classList.contains('breakfast')) {
+      breakfast('breakfast');
+    } else if (e.currentTarget.classList.contains('lunch')) {
+      lunch('lunch');
+    } else if (e.currentTarget.classList.contains('shakes')) {
+      shakes('shakes');
+    } else if (e.currentTarget.classList.contains('all')) {
+      displayMenuAll();
+    }
+  });
 });
 
-displayMenu = displayMenu.join('');
-section.innerHTML = displayMenu;
+// On load
+displayMenuAll();
